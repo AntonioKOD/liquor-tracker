@@ -4,19 +4,19 @@ import { useState } from 'react';
 
 export default function AddLiquor() {
   const [liquorName, setLiquorName] = useState('');
-  const [costPerBottle, setCostPerBottle] = useState('');
+  const [price, setPrice] = useState('');
 
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
 
-    const response = await fetch('/api/liquor', {
+    const response = await fetch('/api/liquor/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         liquorName,
-        costPerBottle: parseFloat(costPerBottle),
+        price: parseFloat(price),
       }),
     });
 
@@ -29,7 +29,7 @@ export default function AddLiquor() {
 
     // Clear form fields after submission
     setLiquorName('');
-    setCostPerBottle('');
+    setPrice('');
   };
 
   return (
@@ -50,8 +50,8 @@ export default function AddLiquor() {
           <input
             type="number"
             step="0.01"
-            value={costPerBottle}
-            onChange={(e) => setCostPerBottle(e.target.value)}
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
             required
           />
         </div>

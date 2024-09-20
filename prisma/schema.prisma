@@ -8,61 +8,17 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model Day {
-  id        Int         @id @default(autoincrement())
-  name      String      // Name of the day, e.g., "Monday"
-  date      Date        @relation(fields: [dateId], references: [id])
-  dateId    Int         @unique
-  week      Week?       @relation(fields: [weekId], references: [id])
-  weekId    Int?
-  liquors   Liquor[]    // A day can have multiple liquors
-  liquorLogs LiquorLog[] // Logs of liquor usage for this day
-}
-
-model Date {
-  id   Int      @id @default(autoincrement())
-  date DateTime // The actual date, e.g., "2024-09-11"
-  day  Day?
-}
-
 model Liquor {
-  id            Int        @id @default(autoincrement())
-  liquorName    String     @unique // Name of the liquor, e.g., "Whiskey"
-  emptyBottles  Int        // Initial count of empty bottles
-  costPerBottle Int        // Cost per bottle
-  requisitionCost Int?     // Optional cost of requisitioning more liquor
-  day           Day?        @relation(fields: [dayId], references: [id]) // Relation to the Day model
-  dayId         Int?
-  liquorLogs    LiquorLog[] // Logs for this liquor
-}
-
-model LiquorLog {
-  id          Int      @id @default(autoincrement())
-  liquor      Liquor   @relation(fields: [liquorId], references: [id]) // Relation to the Liquor model
-  liquorId    Int
-  day         Day      @relation(fields: [dayId], references: [id]) // Relation to the Day model
-  dayId       Int
-  bottlesUsed Int      // Tracks how many bottles were used on that day
-  timestamp   DateTime @default(now()) // Timestamp for when the log was created
-}
-
-model Week {
   id     Int    @id @default(autoincrement())
-  days   Day[]  // A week has multiple days
-  month  Month? @relation(fields: [monthId], references: [id])
-  monthId Int?
+  name   String
+  price  Float
+  days   Day[]  
 }
 
-model Month {
-  id     Int     @id @default(autoincrement())
-  weeks  Week[]  // A month has multiple weeks
-  name   String  // Name of the month, e.g., "January", "February"
-  year   Year?   @relation(fields: [yearId], references: [id])
-  yearId Int?
-}
-
-model Year {
-  id        Int     @id @default(autoincrement())
-  months    Month[] // A year has multiple months
-  yearValue Int     // The year value, e.g., 2024
+model Day {
+  id     Int      @id @default(autoincrement())
+  date   DateTime
+  liquor Liquor   @relation(fields: [liquorId], references: [id])
+  emptyBottles Int
+  liquorId Int
 }

@@ -10,18 +10,18 @@ const prisma = new PrismaClient();
 
 export async function POST(req: { json: () => any; }) {
   const body = await req.json();
-  const { liquorName, costPerBottle } = body;
+  const { liquorName, price } = body;
 
-  if (!liquorName || !costPerBottle) {
+  if (!liquorName || !price) {
     return new Response(JSON.stringify({ success: false, message: 'Missing fields' }), { status: 400 });
   }
 
   try {
     const newLiquor = await prisma.liquor.create({
       data: {
-        liquorName,
-        costPerBottle: parseFloat(costPerBottle),
-        emptyBottles: 0, 
+        name: liquorName,
+        price: price,
+
       },
     });
 
