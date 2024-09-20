@@ -3,19 +3,16 @@ import { UserButton } from "@clerk/nextjs";
 import React from "react";
 import { checkRole } from "@/utils/roles";
 import  Link from "next/link";
-import { useUser } from "@clerk/nextjs";
 
 
-const {isLoaded, user, isSignedIn} = useUser();
-export default async function Page(){
-    
-    
- const role = user?.publicMetadata?.role;
-    if(role === 'admin'){
+export default function Page(){
+
+    if(checkRole('admin')){
         return(
             <div>
                 <div><UserButton/></div>
                 <Link href='/admin/dashboard'>View Dashboard</Link>
+
             </div>
         )
     }
