@@ -6,7 +6,7 @@ import {PrismaClient} from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export async function POST(req: { json: () => any; }) {
+export async function POST(req: { json }) {
   const body = await req.json();
   const { liquorName, price } = body;
 
