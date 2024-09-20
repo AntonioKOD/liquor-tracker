@@ -1,7 +1,5 @@
-import { NextResponse } from "next/server";
+
 import {PrismaClient} from '@prisma/client';
-import { parse } from "path";
-import {v4 as uuidv4} from 'uuid';
 
 
 
